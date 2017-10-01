@@ -1,0 +1,22 @@
+language: python
+python:
+- '2.6'
+- '2.7'
+- '3.2'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
+install: pip install -r requirements-travis.txt
+script: coverage run -m unittest
+after_success: coveralls
+notifications:
+  email: false
+deploy:
+  provider: pypi
+  user: BenWeedon
+  password:
+    secure: JwFXXI4SpCo1Vakn5VKMugOrIlgkKlXDg1TcE7vW3wGbYqupWvVIoiji5jMu1dP6fXxgEg/o/c4nzGiy2Ru2z+BRMsTo+cv8KuVdOJDzmNLe026YWMK8STszC0BaJ3mnqqhK2XpZJZ8cpJh9xJY/fA27LeQjuA2LobzGRKBOA1W6hv9u+RG002IUduijJP+8vP3Y+/VwRZUQs58Npu/MIfQEwO2HJdpUWU60ULD0Cw02ycTdlQ/dWdYg8jTGfp9cEjHSsff17+9AtasPjTcPe2Yl+XnapcmFfksFQ1sDPx9eV65IYxXnqO2XPWUYtwxAxkjQwiEUOjvoxy2uRXyLfOoBVfh+RwIm8lIHEABgqI7GS5B/He/wMPAhmJfYsrfnGsgzAjrNdxsJqofRvwRXW+D67BhTsF4JO/Bg+f2uup4O7lXI+EConRToKkeJ+06QSbYxMSei8CHZEmsUbm0PtmOzFuvbwr+WpaWqFg0gKYNMbvarQRrtSV+jE3+ZXIOj03oDLX+bnj8aB/4e74KoR9N49qj7q7sB2UeVpC1e+OGKy9eb1eSLSncxr8jLmPiEozAHpCYCqWB6qoqLg32rwiv1/ErTLvn5S3m0lKLyptetSJ1BrAWY7Y6OYvDX7O2ybqyWYcg47LbvqQaVzYVth7f9UTpFZsNTosUHRk9DET4=
+  on:
+    tags: true
+    branch: master
