@@ -40,4 +40,9 @@ setup(
 
         'Topic :: Other/Nonlisted Topic',
     ],
+    entry_points = {
+        'console_scripts': [
+            'linguafilter = linguafilter.main:main',
+        ],
+    },
 )
