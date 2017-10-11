@@ -66,27 +66,27 @@ class TestProcessChars(unittest.TestCase):
         self.assertEqual(ipa.process_chars(seq), expected)
 
     def test_mod_char_first(self):
-        with self.assertRaisesRegex(Exception, 'modifier characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'modifier characters must appear after a base character'):
             ipa.process_chars(['\''])
-        with self.assertRaisesRegex(Exception, 'modifier characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'modifier characters must appear after a base character'):
             ipa.process_chars(['='])
-        with self.assertRaisesRegex(Exception, 'modifier characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'modifier characters must appear after a base character'):
             ipa.process_chars(['`'])
-        with self.assertRaisesRegex(Exception, 'modifier characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'modifier characters must appear after a base character'):
             ipa.process_chars(['~'])
 
     def test_underscores_in_wrong_positions(self):
-        with self.assertRaisesRegex(Exception, 'underscore characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'underscore characters must appear after a base character'):
             ipa.process_chars(['_'])
-        with self.assertRaisesRegex(Exception, 'underscore characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'underscore characters must appear after a base character'):
             ipa.process_chars(['_', '_'])
-        with self.assertRaisesRegex(Exception, 'two underscore characters cannot appear next to each other'):
+        with self.assertRaisesRegexp(Exception, 'two underscore characters cannot appear next to each other'):
             ipa.process_chars(['a', '_', '_'])
-        with self.assertRaisesRegex(Exception, 'dangling modifier character'):
+        with self.assertRaisesRegexp(Exception, 'dangling modifier character'):
             ipa.process_chars(['a', '_'])
-        with self.assertRaisesRegex(Exception, 'two underscore characters cannot appear next to each other'):
+        with self.assertRaisesRegexp(Exception, 'two underscore characters cannot appear next to each other'):
             ipa.process_chars(['a', '_', '_', 'a'])
-        with self.assertRaisesRegex(Exception, 'underscore characters must appear after a base character'):
+        with self.assertRaisesRegexp(Exception, 'underscore characters must appear after a base character'):
             ipa.process_chars(['_', '_', 'a'])
 
 class TestRemoveMods(unittest.TestCase):

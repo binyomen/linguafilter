@@ -1,3 +1,4 @@
+import string
 import unittest
 
 import linguafilter.ipa_mappings as mappings
@@ -18,7 +19,7 @@ class TestFormat(unittest.TestCase):
 
             # test html
             html = val['html']
-            self.assertTrue(html.isprintable())
+            all(c in string.printable for c in html)
             self.assertTrue(len(html)==1 or len(html)==8 or len(html)==16)
             if len(html) != 1:
                 self.assertEqual(html[:3], '&#x')
@@ -37,7 +38,7 @@ class TestFormat(unittest.TestCase):
 
             # test latex
             latex = val['latex']
-            self.assertTrue(latex.isprintable())
+            all(c in string.printable for c in latex)
 
     def test_mod_map_format(self):
         for key in mappings.MOD_MAP:
@@ -45,7 +46,7 @@ class TestFormat(unittest.TestCase):
 
             # test html
             html = val['html']('a')
-            self.assertTrue(html.isprintable())
+            all(c in string.printable for c in html)
             self.assertEqual(len(html), 9)
             self.assertEqual(html[0], 'a')
             self.assertEqual(html[1:4], '&#x')
@@ -57,4 +58,4 @@ class TestFormat(unittest.TestCase):
 
             # test latex
             latex = val['latex']('a')
-            self.assertTrue(latex.isprintable())
+            all(c in string.printable for c in latex)
