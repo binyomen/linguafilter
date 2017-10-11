@@ -200,6 +200,18 @@ class TestParse(unittest.TestCase):
         ipa.parse(span, doc)
         self.assertEqual(pf.stringify(span), '&#x0251;')
 
+    def test_latex(self):
+        doc = MockDoc('latex')
+        span = pf.Span(pf.Str('A'), classes=['ipa'])
+        ipa.parse(span, doc)
+        self.assertEqual(pf.stringify(span), '\\textipa{A}')
+
+    def test_latex_with_space(self):
+        doc = MockDoc('latex')
+        span = pf.Span(pf.Str('A'), pf.Space(), pf.Str('B'), classes=['ipa'])
+        ipa.parse(span, doc)
+        self.assertEqual(pf.stringify(span), '\\textipa{A} \\textipa{B}')
+
 class TestGetCombos(unittest.TestCase):
     def test_single_element(self):
         self.assertEqual(ipa.get_combos([1]), [[1], []])
