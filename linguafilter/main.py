@@ -1,5 +1,9 @@
+import panflute as pf
+
+import ipa
+
 def main():
-    print('linguafilter run')
+    pf.run_filters([ipa.parse])
 
 if __name__ == '__main__':
     main()
