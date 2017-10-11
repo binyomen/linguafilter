@@ -7,7 +7,7 @@ python:
 - '3.5'
 - '3.6'
 install: pip install -r requirements-travis.txt
-script: coverage run --source linguafilter -m unittest discover
+script: coverage run --source linguafilter --omit linguafilter/main.py -m unittest discover
 after_success: coveralls
 notifications:
   email: false

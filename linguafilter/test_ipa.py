@@ -1,8 +1,42 @@
+import panflute as pf
 import unittest
 
 import linguafilter.ipa as ipa
 
 Seg = ipa.Segment
+
+class MockDoc:
+    def __init__(self, format):
+        self.format = format
+
+class TestSegment(unittest.TestCase):
+    def test_init(self):
+        seg = Seg()
+        self.assertIsNone(seg.base)
+        self.assertEqual(seg.mods, [])
+
+        seg = Seg('a')
+        self.assertEqual(seg.base, 'a')
+        self.assertEqual(seg.mods, [])
+
+        seg = Seg('a', ['b'])
+        self.assertEqual(seg.base, 'a')
+        self.assertEqual(seg.mods, ['b'])
+
+    def test_eq(self):
+        seg1 = Seg('a', ['b'])
+        seg2 = Seg('a', ['b'])
+        seg3 = Seg('a', ['b', 'c'])
+        seg4 = Seg('a', [])
+        self.assertEqual(seg1, seg2)
+        self.assertNotEqual(seg1, seg3)
+        self.assertNotEqual(seg1, seg4)
+
+    def test_str(self):
+        self.assertEqual(str(Seg('a', ['b', 'c'])), "{ a, ['b', 'c'] }")
+
+    def test_repr(self):
+        self.assertEqual(repr(Seg('a', ['b', 'c'])), "{ a, ['b', 'c'] }")
 
 class TestTokenize(unittest.TestCase):
     def test_simple_char(self):
@@ -143,6 +177,28 @@ class TestReduceSeg(unittest.TestCase):
     def test_multiple_mods_reduction(self):
         self.assertEqual(ipa.reduce_seg(Seg('r', ['=', '`'])), ('&#x027D;', ['=']))
         # no actual cases where two mods reduce into the base yet
+
+    def test_no_translation(self):
+        with self.assertRaisesRegexp(Exception, 'this segment does not have a translation'):
+            ipa.reduce_seg(Seg('#'))
+
+class TestStringify(unittest.TestCase):
+    def test_multiple_mods(self):
+        self.assertEqual(ipa.stringify(Seg('r', ['`', 'G', 'A'])), '&#x027D;&#x02E0;&#x0318;')
+    # TODO: once H_T etc. are supported, include these in the tests
+
+class TestParse(unittest.TestCase):
+    def test_no_str(self):
+        doc = MockDoc('html')
+        span = pf.Span(classes=['ipa'])
+        ipa.parse(span, doc)
+        self.assertEqual(pf.stringify(span), '')
+
+    def test_str(self):
+        doc = MockDoc('html')
+        span = pf.Span(pf.Str('A'), classes=['ipa'])
+        ipa.parse(span, doc)
+        self.assertEqual(pf.stringify(span), '&#x0251;')
 
 class TestGetCombos(unittest.TestCase):
     def test_single_element(self):

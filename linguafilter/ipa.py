@@ -56,7 +56,7 @@ def reduce_seg(seg, output_format='html'):
             return char, mods
     raise Exception('this segment does not have a translation')
 
-def stringify(seg, output_format):
+def stringify(seg, output_format='html'):
     char, mods = reduce_seg(seg, output_format)
     mod_funcs = reduce_mods(mods, output_format)
     for func in mod_funcs:
@@ -125,4 +125,4 @@ def strings_to_ipa(elem, doc):
 
 def parse(elem, doc):
     if isinstance(elem, pf.Span) and 'ipa' in elem.classes:
-        return elem.walk(strings_to_ipa)
+        return elem.walk(strings_to_ipa, doc=doc)

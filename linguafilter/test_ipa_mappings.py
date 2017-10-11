@@ -23,17 +23,11 @@ class TestFormat(unittest.TestCase):
             self.assertTrue(len(html)==1 or len(html)==8 or len(html)==16)
             if len(html) != 1:
                 self.assertEqual(html[:3], '&#x')
-                try:
-                    int(html[3:7], 16)
-                except:
-                    self.fail('invalid hexidecimal value: ' + html[3:7])
+                int(html[3:7], 16) # raises if fails to parse
                 self.assertEqual(html[7], ';')
                 if len(html) == 16:
                     self.assertEqual(html[8:11], '&#x')
-                    try:
-                        int(html[11:15], 16)
-                    except:
-                        self.fail('invalid hexidecimal value: ' + html[11:15])
+                    int(html[11:15], 16) # raises if fails to parse
                     self.assertEqual(html[15], ';')
 
             # test latex
@@ -50,10 +44,7 @@ class TestFormat(unittest.TestCase):
             self.assertEqual(len(html), 9)
             self.assertEqual(html[0], 'a')
             self.assertEqual(html[1:4], '&#x')
-            try:
-                int(html[4:-1], 16)
-            except:
-                self.fail('invalid hexidecimal value: ' + val['html'][4:-1])
+            int(html[4:-1], 16) # raises if fails to parse
             self.assertEqual(html[8], ';')
 
             # test latex
