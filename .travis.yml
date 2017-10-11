@@ -1,3 +1,5 @@
+dist: trusty
+sudo: required
 language: python
 python:
 - '2.7'
@@ -6,8 +8,10 @@ python:
 - '3.4'
 - '3.5'
 - '3.6'
-install: pip install -r requirements-travis.txt
-script: coverage run --source linguafilter --omit linguafilter/main.py -m unittest discover
+install: chmod +x install_deps.sh && ./install_deps.sh
+script:
+- coverage run --source linguafilter --omit linguafilter/main.py -m unittest discover
+- chmod +x integration/run.ps1 && ./integration/run.ps1
 after_success: coveralls
 notifications:
   email: false

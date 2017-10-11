@@ -121,7 +121,9 @@ def strings_to_ipa(elem, doc):
         text = ''
         for seg in segs:
             text += stringify(seg, doc.format)
-        return pf.Str(text)
+        if doc.format == 'latex':
+            text = '\\textipa{' + text + '}'
+        return pf.RawInline(text, format=doc.format)
 
 def parse(elem, doc):
     if isinstance(elem, pf.Span) and 'ipa' in elem.classes:

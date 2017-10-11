@@ -1,6 +1,6 @@
 import panflute as pf
 
-import ipa
+import linguafilter.ipa as ipa
 
 def main():
     pf.run_filters([ipa.parse])
