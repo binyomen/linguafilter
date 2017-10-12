@@ -6,15 +6,27 @@ def parse(elem, doc):
         if len(content) != 4:
             raise Exception('invalid phonrule syntax')
 
+        elem.content = []
         if doc.format == 'html':
-            text = pf.stringify(content[0]) + ' -&gt; '
-            text += pf.stringify(content[1]) + '/'
-            text += pf.stringify(content[2]) + '_'
-            text += pf.stringify(content[3])
+            elem.content.append(content[0])
+            elem.content.append(pf.Space())
+            elem.content.append(pf.RawInline('-&gt;', format=doc.format))
+            elem.content.append(pf.Space())
+            elem.content.append(content[1])
+            elem.content.append(pf.RawInline('/', format=doc.format))
+            elem.content.append(content[2])
+            elem.content.append(pf.RawInline('_', format=doc.format))
+            elem.content.append(content[3])
         elif doc.format == 'latex':
-            text = '\\phonb{' + pf.stringify(content[0]) + '}'
-            text += '{' + pf.stringify(content[1]) + '}'
-            text += '{' + pf.stringify(content[2]) + '}'
-            text += '{' + pf.stringify(content[3]) + '}'
-
-        elem.content = [pf.RawInline(text, format=doc.format)]
+            elem.content.append(pf.RawInline('\\phonb{', format=doc.format))
+            elem.content.append(content[0])
+            elem.content.append(pf.RawInline('}', format=doc.format))
+            elem.content.append(pf.RawInline('{', format=doc.format))
+            elem.content.append(content[1])
+            elem.content.append(pf.RawInline('}', format=doc.format))
+            elem.content.append(pf.RawInline('{', format=doc.format))
+            elem.content.append(content[2])
+            elem.content.append(pf.RawInline('}', format=doc.format))
+            elem.content.append(pf.RawInline('{', format=doc.format))
+            elem.content.append(content[3])
+            elem.content.append(pf.RawInline('}', format=doc.format))
