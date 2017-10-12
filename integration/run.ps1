@@ -10,7 +10,8 @@ function RunTest($type, $ext) {
     $expected = Get-Content $expectedFile
     if ($actual -ne $expected) {
         Write-Host "The pandoc output does not match the file." -ForegroundColor Red -BackgroundColor Black
-        Write-Host "Actual: $actual" -ForegroundColor Red -BackgroundColor Black
+        $actualSpaces = " " * $expectedFile.Name.Length
+        Write-Host "Actual:      $actualSpaces$actual" -ForegroundColor Red -BackgroundColor Black
         Write-Host "Expected ($($expectedFile.Name)): $expected" -ForegroundColor Red -BackgroundColor Black
         Write-Host
         ++$script:numFailures
