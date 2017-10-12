@@ -2,12 +2,9 @@ import panflute as pf
 import unittest
 
 import linguafilter.ipa as ipa
+import linguafilter.test_common as common
 
 Seg = ipa.Segment
-
-class MockDoc:
-    def __init__(self, format):
-        self.format = format
 
 class TestSegment(unittest.TestCase):
     def test_init(self):
@@ -189,25 +186,25 @@ class TestStringify(unittest.TestCase):
 
 class TestParse(unittest.TestCase):
     def test_no_str(self):
-        doc = MockDoc('html')
+        doc = common.MockDoc('html')
         span = pf.Span(classes=['ipa'])
         ipa.parse(span, doc)
         self.assertEqual(pf.stringify(span), '')
 
     def test_str(self):
-        doc = MockDoc('html')
+        doc = common.MockDoc('html')
         span = pf.Span(pf.Str('A'), classes=['ipa'])
         ipa.parse(span, doc)
         self.assertEqual(pf.stringify(span), '&#x0251;')
 
     def test_latex(self):
-        doc = MockDoc('latex')
+        doc = common.MockDoc('latex')
         span = pf.Span(pf.Str('A'), classes=['ipa'])
         ipa.parse(span, doc)
         self.assertEqual(pf.stringify(span), '\\textipa{A}')
 
     def test_latex_with_space(self):
-        doc = MockDoc('latex')
+        doc = common.MockDoc('latex')
         span = pf.Span(pf.Str('A'), pf.Space(), pf.Str('B'), classes=['ipa'])
         ipa.parse(span, doc)
         self.assertEqual(pf.stringify(span), '\\textipa{A} \\textipa{B}')
