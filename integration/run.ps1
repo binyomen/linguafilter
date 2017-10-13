@@ -12,9 +12,10 @@ $script:numFailures = 0
 
 function RunTest($type, $ext) {
     ++$script:numTests
-    $actual = pandoc $child.FullName -t $type --filter linguafilter
     $expectedFile = Get-Item (Join-Path $filesDir ($child.BaseName + ".$ext"))
+    Write-Verbose "Running test on file $($expectedFile.Name)"
     $expected = Get-Content $expectedFile
+    $actual = pandoc $child.FullName -t $type --filter linguafilter
     # if $actual is not equal to $expected
     if (Compare-Object $actual $expected) {
         Write-Host "The pandoc output does not match the file." -ForegroundColor Red -BackgroundColor Black
