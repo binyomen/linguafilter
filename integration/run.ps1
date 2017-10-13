@@ -1,5 +1,10 @@
 #!/usr/bin/env powershell
 
+Param(
+    [Parameter(Mandatory=$False, Position=0)]
+    [String]$Pattern = "*"
+)
+
 $ErrorActionPreference = "Stop"
 
 $script:numTests = 0
@@ -22,7 +27,7 @@ function RunTest($type, $ext) {
 }
 
 $filesDir = Join-Path $PSScriptRoot files
-$children = Get-ChildItem (Join-Path $filesDir *.md)
+$children = Get-ChildItem (Join-Path $filesDir "$Pattern.md")
 foreach ($child in $children) {
     RunTest "html" "html"
     RunTest "latex" "tex"
