@@ -1,3 +1,3 @@
 import panflute as pf
 
-SPACE_TYPES = set([pf.Space, pf.SoftBreak, pf.LineBreak])
+SPACE_TYPES = (pf.Space, pf.SoftBreak, pf.LineBreak)

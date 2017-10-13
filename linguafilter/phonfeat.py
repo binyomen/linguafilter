@@ -4,7 +4,7 @@ import linguafilter.common as common
 
 def parse(elem, doc):
     if isinstance(elem, pf.Span) and 'phonfeat' in elem.classes:
-        content = [c for c in elem.content if type(c) not in common.SPACE_TYPES]
+        content = [c for c in elem.content if not isinstance(c, common.SPACE_TYPES)]
 
         elem.content = []
         if doc.format == 'html':
