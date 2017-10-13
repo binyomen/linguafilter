@@ -8,7 +8,8 @@ function RunTest($type, $ext) {
     $actual = pandoc $child.FullName -t $type --filter linguafilter
     $expectedFile = Get-Item (Join-Path $filesDir ($child.BaseName + ".$ext"))
     $expected = Get-Content $expectedFile
-    if ($actual -ne $expected) {
+    # if $actual is not equal to $expected
+    if (Compare-Object $actual $expected) {
         Write-Host "The pandoc output does not match the file." -ForegroundColor Red -BackgroundColor Black
         $actualSpaces = " " * $expectedFile.Name.Length
         Write-Host "Actual:      $actualSpaces$actual" -ForegroundColor Red -BackgroundColor Black
