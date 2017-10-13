@@ -1,5 +1,7 @@
 #!/usr/bin/env powershell
 
+$ErrorActionPreference = "Stop"
+
 $script:numTests = 0
 $script:numFailures = 0
 
