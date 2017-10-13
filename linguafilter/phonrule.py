@@ -1,8 +1,10 @@
 import panflute as pf
 
+import linguafilter.common as common
+
 def parse(elem, doc):
     if isinstance(elem, pf.Span) and 'phonrule' in elem.classes:
-        content = [c for c in elem.content if not isinstance(c, pf.Space)]
+        content = [c for c in elem.content if type(c) not in common.SPACE_TYPES]
         if len(content) != 4:
             raise Exception('invalid phonrule syntax')
 
