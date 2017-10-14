@@ -176,8 +176,12 @@ class TestReduceSeg(unittest.TestCase):
         # no actual cases where two mods reduce into the base yet
 
     def test_no_translation(self):
-        with self.assertRaisesRegexp(Exception, 'this segment does not have a translation'):
-            ipa.reduce_seg(Seg('#'))
+        self.assertEqual(ipa.reduce_seg(Seg('#')), ('#', []))
+        self.assertEqual(ipa.reduce_seg(Seg('(')), ('(', []))
+        self.assertEqual(ipa.reduce_seg(Seg(')')), (')', []))
+
+    def test_no_translation_with_mods(self):
+        self.assertEqual(ipa.reduce_seg(Seg('#', ['='])), ('#', ['=']))
 
 class TestStringify(unittest.TestCase):
     def test_multiple_mods(self):

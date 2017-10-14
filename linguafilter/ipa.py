@@ -54,7 +54,8 @@ def reduce_seg(seg, output_format='html'):
             char = mappings.BASE_MAP[key][output_format]
             mods = remove_mods(seg.mods, combo)
             return char, mods
-    raise Exception('this segment does not have a translation')
+    # unrecognized segments just get passed through
+    return seg.base, seg.mods
 
 def stringify(seg, output_format='html'):
     char, mods = reduce_seg(seg, output_format)
