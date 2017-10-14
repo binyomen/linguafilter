@@ -16,6 +16,13 @@ function RunTest($type, $ext) {
     Write-Verbose "Running test on file $($expectedFile.Name)"
     $expected = Get-Content $expectedFile
     $actual = pandoc $child.FullName -t $type --filter linguafilter
+    if (!$?) {
+        Write-Host "Failed running pandoc command." -ForegroundColor Red -BackgroundColor Black
+        Write-Host
+        ++$script:numFailures
+        return
+    }
+
     # if $actual is not equal to $expected
     if (Compare-Object $actual $expected) {
         Write-Host "The pandoc output does not match the file." -ForegroundColor Red -BackgroundColor Black
