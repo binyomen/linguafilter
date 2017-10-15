@@ -30,8 +30,15 @@ def parse(elem, doc):
         with io.open(config['file'], newline='') as f:
             reader = csv.DictReader(f, delimiter=config['delimiter'], quotechar=config['quote'])
             for row in reader:
-                new_content = copy.deepcopy(content)
-                for c in new_content:
+                for c in content:
+                    # don't copy parent, because otherwise it will copy the
+                    # entire document or some nonsense
+                    old_parent = c.parent
+                    c.parent = None
+                    new_c = copy.deepcopy(c)
+                    c.parent = old_parent
+                    new_c.parent = old_parent
+
                     func = lambda elem, doc: replace_fields(row, elem)
-                    c.walk(func)
-                elem.content.extend(new_content)
+                    new_c.walk(func)
+                    elem.content.append(new_c)
