@@ -15,6 +15,8 @@ def get_config(attrs):
     else:
         config['delimiter'] = ','
     config['quote'] = attrs['quote'] if 'quote' in attrs else '"'
+    config['merge_root'] = 'merge_root' in attrs
+
     return config
 
 def replace_fields(fields, elem):
@@ -25,8 +27,14 @@ def replace_fields(fields, elem):
 def parse(elem, doc):
     if isinstance(elem, pf.Div) and 'lexicon' in elem.classes:
         config = get_config(elem.attributes)
-        content = elem.content
-        elem.content = []
+        if config['merge_root']:
+            if len(elem.content) != 1:
+                raise Exception('if merge_root is specified, there can be only one node under the lexicon div')
+            content = elem.content[0].content
+            elem.content[0].content = []
+        else:
+            content = elem.content
+            elem.content = []
         with io.open(config['file'], newline='') as f:
             reader = csv.DictReader(f, delimiter=config['delimiter'], quotechar=config['quote'])
             for row in reader:
@@ -41,4 +49,7 @@ def parse(elem, doc):
 
                     func = lambda elem, doc: replace_fields(row, elem)
                     new_c.walk(func)
-                    elem.content.append(new_c)
+                    if config['merge_root']:
+                        elem.content[0].content.append(new_c)
+                    else:
+                        elem.content.append(new_c)
