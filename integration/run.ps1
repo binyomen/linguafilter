@@ -1,4 +1,4 @@
-#!/usr/bin/env powershell
+#!/usr/bin/env pwsh
 
 Param(
     [Parameter(Mandatory=$False, Position=0)]
